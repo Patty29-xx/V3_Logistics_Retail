@@ -11,7 +11,7 @@
                         <h4 class="">Purchase Order</h4>
                     </div>
                     <button type="button" class="close" aria-label="Close"
-                        onclick="window.location.href='{{ route('orders.index') }}';">
+                    onclick="window.location.href='/admin/orders';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -24,8 +24,6 @@
             <div class="col-lg-12">
                 <form id="orderForm" name="orderForm" class="form-horizontal">
                     <input type="hidden" name="order_id" id="order_id">
-
-
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group row">
@@ -64,6 +62,7 @@
                                 <label class="control-label col-sm-2 align-self-center text-osave"
                                     for="deliver-address"></label>
                                 <p class="col-sm-5 ml-2 mb-0">
+                                    Representative: <span id="supplier-representative">Not selected</span><br>
                                     Address: <span id="supplier-address">Not selected</span><br>
                                     Email: <span id="supplier-email">Not selected</span><br>
                                     Phone: <span id="supplier-phone">Not selected</span>
@@ -71,6 +70,22 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
+                            <div class="mt-3 d-flex justify-content-between align-items-center">
+                                <h4 class="mb-3">Estimated Delivery</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="ttl-amt py-2 px-3 d-flex justify-content-end mt-2">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group row">
+                                <label class="control-label col-sm-2 align-self-center text-osave" for="deliver-address">Estimated Delivery</label>
+                                <p class="ml-3 mb-0 estimated-delivery" id="estimatedDelivery"></p>
+                            </div>
+                        </div>
+                                <div class="col-sm-12">
                             <div class="mt-3 d-flex justify-content-between align-items-center">
                                 <h4 class="mb-3">Destination</h4>
                                 <a href="javascript:void(0)" id="editAddress" class="badge badge-success mr-2"><i
@@ -162,8 +177,11 @@
     <div class="modal fade" id="addressModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-header d-flex flex-wrap flex-wrap align-items-center justify-content-between">
                     <h4 class="modal-title" id="modalHeading">Edit Address</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form id="addressForm" name="addressForm" class="form-horizontal">
@@ -221,13 +239,6 @@
 
 @endsection
 @section('scripts')
-
-
-
-
-
-
-
     <script>
         $(function() {
 
@@ -256,7 +267,6 @@
                 });
             }
             updateAddressDetails();
-
 
             $("#editAddress").click(function() {
                 var addressId = 1; 
@@ -325,9 +335,6 @@
             $('#addressModal').on('hidden.bs.modal', function() {
                 $('#addressSaveBtn').html('Save');
             });
-
-
-
 
             $('select[name="supplier_id"]').on('change', function() {
                 var selectedOption = $(this).find('option:selected');
@@ -589,10 +596,6 @@
                 });
 
             });
-
-
-
-
         });
     </script>
 @endsection

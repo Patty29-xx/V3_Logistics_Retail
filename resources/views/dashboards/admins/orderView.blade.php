@@ -33,6 +33,7 @@
                                             <tr>
                                                 <th scope="col">Product Order#</th>
                                                 <th scope="col">Created Date</th>
+                                                <th scope="col">Estimated Delivery</th>
                                                 <th scope="col">Supplier</th>
                                                 <th scope="col">Supplier Address</th>
                                                 <th scope="col">Warehouse Address</th>
@@ -43,8 +44,10 @@
                                             <tr>
                                                 <td>{{ $order->purchase_order_no }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}</td>
-
+                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}</td>  <!--change this to estimated date-->
+                                               
                                                 <td>{{ $order->supplier->name }}</td>
+ 
                                                 <td>
                                                     <p>{{ $order->supplier->address }}<br>
                                                        Email: {{ $order->supplier->email }}<br>
@@ -143,7 +146,6 @@
                     </div>
                 </div>
 
-               
                 <div class="content-page2">
                     <div class="bottom-nav d-flex">
                         @if ($order->status === 'To Deliver')

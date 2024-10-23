@@ -9,7 +9,8 @@
                     <div>
                         <h4 class="">Purchase Order Information</h4>
                     </div>
-                    <button type="button" class="close" aria-label="Close" onclick="window.location.href='{{ route('user/orders.index') }}';">
+                    <button type="button" class="close" aria-label="Close"
+                    onclick="window.location.href='/admin/orders';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -33,6 +34,7 @@
                                             <tr>
                                                 <th scope="col">Product Order#</th>
                                                 <th scope="col">Created Date</th>
+                                                <th scope="col">Estimated Delivery</th>
                                                 <th scope="col">Supplier</th>
                                                 <th scope="col">Supplier Address</th>
                                                 <th scope="col">Warehouse Address</th>
@@ -43,8 +45,10 @@
                                             <tr>
                                                 <td>{{ $order->purchase_order_no }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}</td>
-
+                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}</td>  <!--change this to estimated date-->
+                                               
                                                 <td>{{ $order->supplier->name }}</td>
+ 
                                                 <td>
                                                     <p>{{ $order->supplier->address }}<br>
                                                        Email: {{ $order->supplier->email }}<br>

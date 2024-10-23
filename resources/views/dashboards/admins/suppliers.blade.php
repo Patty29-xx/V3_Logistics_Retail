@@ -45,6 +45,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalHeading"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form id="supplierForm" name="supplierForm" class="form-horizontal">
@@ -52,7 +55,13 @@
                         
                         <div class="container">
                                     <div class="form-group row">
-                                        <label for="name" class="col-sm-4 col-form-label text-osave">Name*</label>
+                                        <label for="cname" class="col-sm-4 col-form-label text-osave">Company Name*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="name" name="name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="rname" class="col-sm-4 col-form-label text-osave">Representative Name*</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" id="name" name="name" required>
                                         </div>
@@ -98,7 +107,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="viewSupplier" aria-hidden="true">
+    <!-- <div class="modal fade" id="viewSupplier" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -126,7 +135,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -184,29 +193,22 @@
                         searchable: false,
                         orderable: false,
                         render: function(data, type, full, meta) {
-                            var viewButton = '<a href="javascript:void(0)" data-id="' + full.id +
-                                '" data-toggle="tooltip" data-placement="top" title="View" class="badge badge-info mr-2 viewSupplier"><i class="ri-eye-line mr-0"></i></a>';
+                            var addButton = '<a href="/admin/products" data-toggle="tooltip" data-placement="top" title="Add New Product" class="badge badge-success mr-2 addProduct"><i class="ri-add-line mr-0"></i></a>';
                             var editButton = '<a href="javascript:void(0)" data-id="' + full.id +
                                 '" data-toggle="tooltip" data-placement="top" title="Edit" class="badge bg-primary mr-2 editSupplier"><i class="ri-eye-line mr-0"></i></a>';
                             var deleteButton = '<a href="javascript:void(0)" data-id="' + full.id +
-                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-warning deleteSupplier"><i class="ri-delete-bin-line mr-0"></i></a>';
+                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-danger deleteSupplier"><i class="ri-delete-bin-line mr-0"></i></a>';
 
                             return '<div class="d-flex align-items-center list-action">' +
                                 editButton +
+                                deleteButton +
+                                
                                 '</div>';
                         }
                     }
 
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
+                
             });
 
             $("#createSupplier").click(function() {
@@ -267,6 +269,54 @@
             });
 
         });
+
+
+        $(document).on('click', '.deleteSupplier', function() {
+            var supplier_id = $(this).data("id");
+
+        
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                
+                    $.ajax({
+                        url: "{{ route('suppliers.destroy', '') }}/" + supplierId, 
+                        type: 'DELETE',
+                        data: {
+                            _token: "{{ csrf_token() }}" 
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: 'Supplier has been deleted.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            supplierTable.ajax.reload(); 
+                        },
+                        error: function(response) {
+                            Swal.fire({
+                                title: 'Oops!',
+                                text: 'Something went wrong!',
+                                icon: 'error',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+
     </script>
 
 

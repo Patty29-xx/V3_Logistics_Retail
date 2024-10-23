@@ -120,7 +120,7 @@
                         <button type="submit" class="btn btn-primary mr-2 ml-2" id="returnBtn" value="create">Request
                             Return</button>
                         <button type="button" class="btn btn-light"
-                            onclick="window.location.href='{{ route('returns.index') }}';">Cancel</button>
+                            onclick="window.location.href='{{ route('returns.index')}}';">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -132,6 +132,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalHeading">Edit Address</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form id="addressForm" name="addressForm" class="form-horizontal">

@@ -25,6 +25,7 @@
                             <tr class="ligth ligth-data">
                                 <th>No.</th>
                                 <th>Created Date</th>
+                                <th>Estimated Delivery Date</th>
                                 <th>Pick List No.</th>
                                 <th>Order From</th>
                                 <th>Deliver To</th>
@@ -127,6 +128,19 @@
                             return date.toLocaleDateString('en-GB', options);
                         }
                     },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            };
+                            return date.toLocaleDateString('en-GB', options);
+                        }
+                    },
 
                     {
                         data: 'picklist_no',
@@ -152,24 +166,15 @@
                             var editButton = '<a href="javascript:void(0)" data-id="' + full.id +
                                 '" data-toggle="tooltip" data-placement="top" title="Edit" class="badge bg-success mr-2 editPicklist"><i class="ri-pencil-line mr-0"></i></a>';
                             var deleteButton = '<a href="javascript:void(0)" data-id="' + full.id +
-                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-warning deletePicklist"><i class="ri-delete-bin-line mr-0"></i></a>';
+                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-danger deletePicklist"><i class="ri-delete-bin-line mr-0"></i></a>';
 
                             return '<div class="d-flex align-items-center list-action">' +
-                                viewButton 
-                                
+                                viewButton +
+                                deleteButton +
                                 '</div>';
                         }
                     }
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
             });
 
             $("#createPicklist").click(function() {

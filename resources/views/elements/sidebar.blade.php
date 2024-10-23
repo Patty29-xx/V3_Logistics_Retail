@@ -4,14 +4,20 @@
         <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
             @if (auth()->user()->role == 1)
             <a href="/admin/dashboard" class="header-logo">
-                <img src="/logistic-assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
-                <h5 class="logo-title light-logo ml-2">save</h5>
+                <!-- <img src="/logistic-assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"> -->
+                <h5 class="logo-title light-logo ml-2">Logistics</h5>
             </a>
             @endif
             @if (auth()->user()->role == 2)
             <a href="/user/dashboard" class="header-logo">
-                <img src="/logistic-assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo">
-                <h5 class="logo-title light-logo ml-2">save</h5>
+               <!-- <img src="/logistic-assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"> -->
+               <h5 class="logo-title light-logo ml-2">Logistics</h5>
+            </a>
+            @endif
+            @if (auth()->user()->role == 3)
+            <a href="/store/dashboard" class="header-logo">
+               <!-- <img src="/logistic-assets/images/logo.png" class="img-fluid rounded-normal light-logo" alt="logo"> -->
+               <h5 class="logo-title light-logo ml-2">Logistics</h5>
             </a>
             @endif
             <div class="iq-menu-bt-sidebar ml-2">
@@ -110,7 +116,7 @@
                                     </path>
                                 </svg>
 
-                                <span class="ml-3">Suppliers</span>
+                                <span class="ml-3">Supplier Details</span>
                                 <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -130,6 +136,8 @@
                                         <i class="las la-minus"></i><span>Suppliers</span>
                                     </a>
                                 </li>
+                               
+                                
                             </ul>
                         </li>
                         <li class=" ">
@@ -271,7 +279,7 @@
                                 </path>
                             </svg>
 
-                            <span class="ml-3">Suppliers</span>
+                            <span class="ml-3">Supplier Details</span>
                             <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -291,6 +299,7 @@
                                     <i class="las la-minus"></i><span>Suppliers</span>
                                 </a>
                             </li>
+                            
                         </ul>
                     </li>
                     <li class=" ">
@@ -352,6 +361,67 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                @endif
+                @if (auth()->user()->role == 3)
+                    <li class="">
+                        <a href="#supplier" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                            <svg class="svg-icon" id="p-dash6" width="20" height="20"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M4 22C4 17.5817 7.58172 14 12 14C16.4183 14 20 17.5817 20 22H4ZM13 16.083V20H17.6586C16.9423 17.9735 15.1684 16.4467 13 16.083ZM11 20V16.083C8.83165 16.4467 7.05766 17.9735 6.34141 20H11ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.2104 11 16 9.21043 16 7C16 4.78957 14.2104 3 12 3C9.78957 3 8 4.78957 8 7C8 9.21043 9.78957 11 12 11Z">
+                                </path>
+                            </svg>
+
+                            <span class="ml-3">Store</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul id="storedetails" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                           
+                            <li class="{{ request()->is('store/storedetails') ? 'active' : '' }}">
+                                <a href="{{ route('store/storedetails.index') }}">
+                                    <i class="las la-minus"></i><span>Store Details</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a href="#transfer" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                            <svg class="svg-icon" id="p-dash6" width="20" height="20"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M8.96456 18C8.72194 19.6961 7.26324 21 5.5 21C3.73676 21 2.27806 19.6961 2.03544 18H1V6C1 5.44772 1.44772 5 2 5H16C16.5523 5 17 5.44772 17 6V8H20L23 12.0557V18H20.9646C20.7219 19.6961 19.2632 21 17.5 21C15.7368 21 14.2781 19.6961 14.0354 18H8.96456ZM15 7H3V15.0505C3.63526 14.4022 4.52066 14 5.5 14C6.8962 14 8.10145 14.8175 8.66318 16H14.3368C14.5045 15.647 14.7296 15.3264 15 15.0505V7ZM17 13H21V12.715L18.9917 10H17V13ZM17.5 19C18.1531 19 18.7087 18.5826 18.9146 18C18.9699 17.8436 19 17.6753 19 17.5C19 16.6716 18.3284 16 17.5 16C16.6716 16 16 16.6716 16 17.5C16 17.6753 16.0301 17.8436 16.0854 18C16.2913 18.5826 16.8469 19 17.5 19ZM7 17.5C7 16.6716 6.32843 16 5.5 16C4.67157 16 4 16.6716 4 17.5C4 17.6753 4.03008 17.8436 4.08535 18C4.29127 18.5826 4.84689 19 5.5 19C6.15311 19 6.70873 18.5826 6.91465 18C6.96992 17.8436 7 17.6753 7 17.5Z">
+                                </path>
+                            </svg>
+                            <span class="ml-3">Inventory</span>&nbsp;&nbsp;<span>Transfer</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul id="transfer" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li class="{{ request()->is('store/picklists') ? 'active' : '' }}">
+                                <a href="{{ route('store/picklists.index') }}">
+                                    <i class="las la-minus"></i><span>Pick List</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('store/deliveryreceipts') ? 'active' : '' }}">
+                                <a href="{{ route('store/deliveryreceipts.index') }}">
+                                    <i class="las la-minus"></i><span>Delivery Receipts</span>
+                                </a>
+                            </li>
+                        </ul>
+
                     </li>
                 @endif
                 </ul>

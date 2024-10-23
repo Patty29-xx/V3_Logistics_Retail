@@ -21,6 +21,11 @@
             </div>
             <div class="col-lg-12">
                 <div class="card card-block card-stretch card-height print rounded">
+                <div class="card-header d-flex justify-content-between bg-success header-invoice">
+                        <div class="iq-header-title">
+                            <h4 class="card-title mb-0">{{ $deliveryReceipt->deliveryreceipt_no ?? $nextDrNo }}</h4>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form id="deliveryReceiptForm" name="deliveryReceiptForm" class="form-horizontal">
                             <div class="row">
@@ -53,7 +58,18 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center text-osave"
+                                            for="PO">Received Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" value=""
+                                            readonly>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="ttl-amt py-2 px-3 d-flex justify-content-end mt-2"></div>
                                 </div>
@@ -123,7 +139,7 @@
                     <div class="bottom-nav d-flex">
                         <div class="btn-group mr-2" role="group" aria-label="Button group with nested dropdown"
                             style="{{ !empty($deliveryReceipt->id) ? 'display: none;' : '' }}">
-                            <button type="button" id="deliveryBtn" class="btn btn-secondary" value="create">Save</button>
+                            <button type="button" id="deliveryBtn" class="btn btn-danger" value="create">Save</button>
                         </div>
 
                         <button type="button" class="btn btn-light"

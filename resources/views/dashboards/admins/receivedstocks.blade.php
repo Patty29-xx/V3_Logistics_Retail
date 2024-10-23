@@ -9,9 +9,9 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-between ">
                     <div>
                         <h4 class="">Received Stock List</h4>
-
                     </div>
-
+                    <a href="/admin/orders" class="btn btn-primary add-list"><i
+                    class=""></i>View Order List</a>
                 </div>
             </div>
             <div class="col-md-12">
@@ -215,25 +215,20 @@
                                 ')" data-toggle="tooltip" data-placement="top" title="View" class="badge badge-info mr-2"><i class="ri-eye-line mr-0"></i></a>';
 
                             var orderButton = '<a href="/admin/orderForm" data-id="' + full.id +
-                                '" data-toggle="tooltip" data-placement="top" title="View" class="badge badge-secondary mr-2"><i class="ri-shopping-basket-line mr-0"></i></a>';
+                                '" data-toggle="tooltip" data-placement="top" title="Order Again" class="badge badge-secondary mr-2"><i class="ri-shopping-basket-line mr-0"></i></a>';
+                            var deleteButton = '<a href="javascript:void(0)" data-id="' + full.id +
+                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-danger deleteOrder"><i class="ri-delete-bin-line mr-0"></i></a>';   
 
 
                             return '<div class="d-flex align-items-center list-action">' +
                                 orderButton +
                                 viewButton +
+                                deleteButton +
                                 '</div>';
                         }
                     }
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
+                
             });
 
 

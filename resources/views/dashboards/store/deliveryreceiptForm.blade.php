@@ -11,7 +11,7 @@
                         <h4 class="">Delivery Receipt Details</h4>
                     </div>
                     <button type="button" class="close" aria-label="Close"
-                        onclick="window.location.href='{{ route('user/deliveryreceipts.index') }}';">
+                        onclick="window.location.href='{{ route('store/deliveryreceipts.index') }}';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -126,13 +126,8 @@
 
                 <div class="content-page2">
                     <div class="bottom-nav d-flex">
-                        <div class="btn-group mr-2" role="group" aria-label="Button group with nested dropdown"
-                            style="{{ !empty($deliveryReceipt->id) ? 'display: none;' : '' }}">
-                            <button type="button" id="deliveryBtn" class="btn btn-danger" value="create">Save</button>
-                        </div>
-
                         <button type="button" class="btn btn-light"
-                            onclick="window.location.href='{{ route('user/picklists.index') }}';">Cancel</button>
+                            onclick="window.location.href='{{ route('store/picklists.index') }}';">Cancel</button>
                         <button type="button" class="btn btn-outline-dark ml-2" onclick="window.print();"><i
                                 class="ri-printer-line mr-0"></i></button>
                     </div>
@@ -164,7 +159,7 @@
                             timer: 2000,
                             showConfirmButton: false
                         }).then(function() {
-                            window.location.href = '/user/deliveryreceipts';
+                            window.location.href = '/store/deliveryreceipts';
                         });
                     } else {
                         Swal.fire({

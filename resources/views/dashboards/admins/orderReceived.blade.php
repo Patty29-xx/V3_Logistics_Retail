@@ -11,7 +11,7 @@
                         <h4 class="">Purchase Received</h4>
                     </div>
                     <button type="button" class="close" aria-label="Close"
-                        onclick="window.location.href='{{ route('orders.index') }}';">
+                    onclick="window.location.href='/admin/orders';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -21,6 +21,11 @@
             </div>
             <div class="col-lg-12">
                 <div class="card card-block card-stretch card-height print rounded">
+                <div class="card-header d-flex justify-content-between bg-secondary header-invoice">
+                        <div class="iq-header-title">
+                        <h4 class="card-title mb-0">{{ old('receive_purchase_no', $orderReceived->receive_purchase_no ?? $nextReceiveNo) }}</h4>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <form id="orderReceivedForm" name="orderReceivedForm" class="form-horizontal">
                             <div class="row">
@@ -60,6 +65,17 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control"
                                                 value="{{ $order->purchase_order_no }}" readonly>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center text-osave"
+                                            for="PO">Received Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}" readonly>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -111,9 +127,6 @@
                                 </table>
                             </div>
                         </form>
-
-
-
                     </div>
                 </div>
 
@@ -121,7 +134,7 @@
                     @if ($order->status !== 'Delivered')
                         <div class="bottom-nav d-flex">
                             <div class="btn-group mr-2" role="group" aria-label="Button group with nested dropdown">
-                                <button type="button" id="receivedBtn" class="btn btn-secondary" value="create">Add To
+                                <button type="button" id="receivedBtn" class="btn btn-danger" value="create">Add To
                                     Inventory</button>
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="submit" class="btn btn-light dropdown-toggle"
@@ -136,7 +149,7 @@
                             </div>
                     @endif
                     <button type="button" class="btn btn-light ml-2"
-                        onclick="window.location.href='{{ route('orders.index') }}';">Cancel</button>
+                            onclick="window.location.href='{{ route('orders.index') }}';">Cancel</button>
                 </div>
             </div>
         </div>

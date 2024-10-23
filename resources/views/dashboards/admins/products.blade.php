@@ -11,11 +11,12 @@
 
                     </div>
                     <div>
-                        <a href="javascript:void(0)" id="editProduct" class="btn btn-warning add-list"><i
-                                class="las la-edit"></i> Edit Table</a>
+                        <!-- <a href="javascript:void(0)" id="editProduct" class="btn btn-warning add-list"><i
+                                class="las la-edit"></i> Edit Table</a> -->
                         
                         <a href="javascript:void(0)" id="createProduct" class="btn btn-primary add-list"><i
                                 class="las la-plus mr-3"></i>Add Product</a>
+                                
                     </div>
                 </div>
             </div>
@@ -33,7 +34,9 @@
                                 <th>Unit</th>
                                 <th>Cost Price</th>
                                 <th>Supplier</th>
+                                <th>Re-Order Point</th>
                                 <th>Item Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="ligth-body">
@@ -49,11 +52,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalHeading"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form id="productForm" name="productForm" class="form-horizontal" enctype="multipart/form-data">
                         <input type="hidden" name="product_id" id="product_id">
                         <div class="container">
+                            
                             <div class="form-group row">
                                 <label for="name" class="col-sm-4 col-form-label text-osave">Product Description*</label>
                                 <div class="col-sm-8">
@@ -64,11 +71,14 @@
                             <div class="form-group row">
                                 <label for="category" class="col-sm-4 col-form-label text-osave">Category*</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control" id="category" name="category" required>
+                                    <select class="form-control" id="category" name="category" required onchange="toggleNewCategoryInput()">
                                         <option value="">Select Category</option>
                                         <option value="Beverages">Beverages</option>
                                         <option value="Dry Goods">Dry Goods</option>
+                                        <option value="new">Create New Category</option> <!-- New option to create category -->
                                     </select>
+                                    <input type="text" id="newCategory" name="newCategory" class="form-control mt-2" 
+                                        placeholder="Enter new category" style="display: none;"> <!-- Hidden input for new category -->
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -79,6 +89,13 @@
                                         <option value="BXS">BXS</option>
                                         <option value="SCK">SCK</option>
                                     </select>
+                                </div> 
+                            </div>
+                            <div class="form-group row">
+                                <label for="re-oder-point" class="col-sm-4 col-form-label text-osave">Re-Order Point*</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="re-oder-point" name="re-oder-point"
+                                        placeholder="Enter Re-Order Point" required>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -88,7 +105,7 @@
                                         accept="image/*">
                                 </div>
                             </div>
-                            <h6><b>Purchase Information</b></h6>
+                            <h6>Purchase Information</h6>
                             <div class="form-group row">
                                 <label for="price" class="col-sm-4 col-form-label text-osave">Cost Price*</label>
                                 <div class="col-sm-8">
@@ -117,7 +134,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 @endsection
 
 @section('scripts')
@@ -144,17 +161,14 @@
                     {
                         data: 'name',
                         render: function(data, type, row) {
-                            var imageUrl = row
-                                .image;
-                            var productName = row
-                                .name;
+                            var imageUrl = row.image;
+                            var productName = row.name;
                             return '<img src="/' + imageUrl + '" alt="' + productName +
                                 '" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">' +
                                 productName;
                         },
                         editable: true
                     },
-
                     {
                         data: 'category',
                         name: 'category',
@@ -173,7 +187,12 @@
                     {
                         data: 'supplier.name',
                         name: 'supplier.name',
-                        editable: false
+                        editable: true
+                    },
+                    {
+                        data: 'reorder.point',
+                        name: 'reorder.point',
+                        editable: true
                     },
                     {
                         data: 'status',
@@ -190,109 +209,118 @@
                         },
                         editable: true
                     },
+                    {
+                        data: null,
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full, meta) {
+                            var addButton = '<a href="/admin/products" data-toggle="tooltip" data-placement="top" title="Add New Product" class="badge badge-success mr-2 addProduct"><i class="ri-add-line mr-0"></i></a>';
+                            var editButton = '<a href="javascript:void(0)" data-id="' + full.id +
+                                '" data-toggle="tooltip" data-placement="top" title="Edit" class="badge bg-primary mr-2 editSupplier"><i class="ri-eye-line mr-0"></i></a>';
+                            var deleteButton = '<a href="javascript:void(0)" data-id="' + full.id +
+                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-danger deleteSupplier"><i class="ri-delete-bin-line mr-0"></i></a>';
 
-                ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
-            });
-
-            $("#editProduct").click(function() {
-                var $this = $(this);
-
-                if ($this.hasClass('editing')) {
-                    var data = [];
-
-                    productTable.rows().every(function(rowIdx, tableLoop, rowLoop) {
-                        var rowData = this.data();
-                        var $row = $(this.node());
-
-                        rowData.name = $row.find('input[name="name"]').val();
-                        rowData.category = $row.find('select[name="category"]').val();
-                        rowData.unit = $row.find('select[name="unit"]').val();
-                        rowData.price = $row.find('input[name="price"]').val();
-                        rowData.status = $row.find('select[name="status"]').val();
-
-                        data.push(rowData);
-                    });
-
-                    $.ajax({
-                        url: "{{ route('products.updateTable') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            products: data
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                title: "Success!",
-                                text: response.success,
-                                icon: "success",
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                            $this.removeClass('editing').text('Edit Table');
-                            productTable.ajax.reload();
-                        },
-                        error: function(response) {
-                            console.log('Error:', response);
-                            Swal.fire({
-                                title: "Oops!",
-                                text: "Something went wrong!",
-                                icon: "error",
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
+                            return '<div class="d-flex align-items-center list-action">' +
+                                editButton +
+                                deleteButton +
+                                '</div>';
                         }
-                    });
-                } else {
-                    $this.addClass('editing').text('Save Table');
-
-                    productTable.columns().every(function() {
-                        var column = this;
-                        column.nodes().to$().each(function() {
-                            var cell = $(this);
-
-                            if (column.index() !== 0 && column.index() !==
-                                5) { 
-                                if (column.index() === 2) { 
-                                    cell.html(`
-                                        <select name="category" class="form-control">
-                                            <option value="Beverage" ${cell.text() === 'Beverage' ? 'selected' : ''}>Beverage</option>
-                                            <option value="Dry Goods" ${cell.text() === 'Dry Goods' ? 'selected' : ''}>Dry Goods</option>
-                                        </select>
-                                    `);
-                                } else if (column.index() === 3) { 
-                                    cell.html(`
-                                        <select name="unit" class="form-control">
-                                            <option value="BXS" ${cell.text() === 'BXS' ? 'selected' : ''}>BXS</option>
-                                            <option value="SCK" ${cell.text() === 'SCK' ? 'selected' : ''}>SCK</option>
-                                        </select>
-                                    `);
-                                } else if (column.index() === 6) { 
-                                    cell.html(`
-                                        <select name="status" class="form-control">
-                                            <option value="Active" ${cell.text() === 'Active' ? 'selected' : ''}>Active</option>
-                                            <option value="Inactive" ${cell.text() === 'Inactive' ? 'selected' : ''}>Inactive</option>
-                                        </select>
-                                    `);
-                                } else {
-                                    var columnName = column.dataSrc();
-                                    cell.html('<input type="text" name="' + columnName +
-                                        '" class="form-control" value="' + cell.text() +
-                                        '"/>');
-                                }
-                            }
-                        });
-                    });
-                }
+                    }
+                ],
             });
+
+            // $("#editProduct").click(function() {
+            //     var $this = $(this);
+
+            //     if ($this.hasClass('editing')) {
+            //         var data = [];
+
+            //         productTable.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            //             var rowData = this.data();
+            //             var $row = $(this.node());
+
+            //             rowData.name = $row.find('input[name="name"]').val();
+            //             rowData.category = $row.find('select[name="category"]').val();
+            //             rowData.unit = $row.find('select[name="unit"]').val();
+            //             rowData.price = $row.find('input[name="price"]').val();
+            //             rowData.status = $row.find('select[name="status"]').val();
+
+            //             data.push(rowData);
+            //         });
+
+            //         $.ajax({
+            //             url: "{{ route('products.updateTable') }}",
+            //             method: "POST",
+            //             data: {
+            //                 _token: "{{ csrf_token() }}",
+            //                 products: data
+            //             },
+            //             success: function(response) {
+            //                 Swal.fire({
+            //                     title: "Success!",
+            //                     text: response.success,
+            //                     icon: "success",
+            //                     timer: 2000,
+            //                     showConfirmButton: false
+            //                 });
+            //                 $this.removeClass('editing').text('Edit Table');
+            //                 productTable.ajax.reload();
+            //             },
+            //             error: function(response) {
+            //                 console.log('Error:', response);
+            //                 Swal.fire({
+            //                     title: "Oops!",
+            //                     text: "Something went wrong!",
+            //                     icon: "error",
+            //                     timer: 2000,
+            //                     showConfirmButton: false
+            //                 });
+            //             }
+            //         });
+            //     } else {
+            //         $this.addClass('editing').text('Save Table');
+
+            //         productTable.columns().every(function() {
+            //             var column = this;
+            //             column.nodes().to$().each(function() {
+            //                 var cell = $(this);
+
+            //                 if (column.index() !== 0 && column.index() !== 5) { 
+            //                     if (column.index() === 2) { 
+            //                         cell.html(`
+            //                             <select name="category" class="form-control" onchange="toggleNewCategoryInput()">
+            //                                 <option value="Beverages" ${cell.text() === 'Beverages' ? 'selected' : ''}>Beverages</option>
+            //                                 <option value="Dry Goods" ${cell.text() === 'Dry Goods' ? 'selected' : ''}>Dry Goods</option>
+            //                                 <option value="new">Create New Category</option> <!-- New option to create category -->
+            //                             </select>
+            //                             <input type="text" name="newCategory" class="form-control mt-2" 
+            //                                    placeholder="Enter new category" style="display: none;"> <!-- Hidden input for new category -->
+            //                         `);
+            //                     } else if (column.index() === 3) { 
+            //                         cell.html(`
+            //                             <select name="unit" class="form-control">
+            //                                 <option value="BXS" ${cell.text() === 'BXS' ? 'selected' : ''}>BXS</option>
+            //                                 <option value="SCK" ${cell.text() === 'SCK' ? 'selected' : ''}>SCK</option>
+            //                             </select>
+            //                         `);
+            //                     } else if (column.index() === 6) { 
+            //                         cell.html(`
+            //                             <select name="status" class="form-control">
+            //                                 <option value="Active" ${cell.text() === 'Active' ? 'selected' : ''}>Active</option>
+            //                                 <option value="Inactive" ${cell.text() === 'Inactive' ? 'selected' : ''}>Inactive</option>
+            //                             </select>
+            //                         `);
+            //                     } else {
+            //                         var columnName = column.dataSrc();
+            //                         cell.html('<input type="text" name="' + columnName +
+            //                             '" class="form-control" value="' + cell.text() +
+            //                             '"/>');
+            //                     }
+            //                 }
+            //             });
+            //         });
+            //     }
+            // });
 
             $("#createProduct").click(function() {
                 $('#product_id').val('');
@@ -306,6 +334,12 @@
                 $(this).html('Saving...');
 
                 var formData = new FormData($("#productForm")[0]);
+
+                // Handle new category input
+                var newCategory = $('#newCategory').val();
+                if (newCategory) {
+                    formData.append('category', newCategory); 
+                }
 
                 $.ajax({
                     data: formData,
@@ -340,5 +374,72 @@
                 });
             });
         });
+
+            $('body').on('click', '.editProduct', function() {
+            var product_id = $(this).data("id");
+            $.get("{{ route('products.index') }}" + "/" + product_id + "/edit", function(data) {
+                $("#modalHeading").html("Edit Product Details");
+                $('#productModal').modal('show');
+                $('#product_id').val(data.id);
+                $('#name').val(data.name);
+                $('#category').val(data.category); 
+                $('#unit').val(data.unit); 
+                $('#re-oder-point').val(data.re-oder-point);   
+                $('#image').val(data.image);      
+                $('#price').val(data.price);
+                $('#supplier').val(data.supplier_id);  
+            });
+        });
+
+
+        function toggleNewCategoryInput() {
+            $('#newCategory').toggle(); 
+        }
+
+        $(document).on('click', '.deleteProduct', function() {
+            var productId = $(this).data('id'); 
+
+        
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                
+                    $.ajax({
+                        url: "{{ route('products.destroy', '') }}/" + productId, 
+                        type: 'DELETE',
+                        data: {
+                            _token: "{{ csrf_token() }}" 
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: 'Supplier has been deleted.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            productTable.ajax.reload(); 
+                        },
+                        error: function(response) {
+                            Swal.fire({
+                                title: 'Oops!',
+                                text: 'Something went wrong!',
+                                icon: 'error',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                }
+            });
+        });    
     </script>
 @endsection
+

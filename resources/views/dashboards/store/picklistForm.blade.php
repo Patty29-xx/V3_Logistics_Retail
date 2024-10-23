@@ -11,7 +11,7 @@
                         <h4 class="">Pick List Form</h4>
                     </div>
                     <button type="button" class="close" aria-label="Close"
-                        onclick="window.location.href='{{ route('picklists.index') }}';">
+                        onclick="window.location.href='{{ route('store/picklists.index') }}';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -42,8 +42,7 @@
                                     <select name="order_from" id="order_from" class="selectpicker form-control"
                                         data-style="py-0">
                                         <option value="" disabled selected>Select Order From</option>
-                                        <option value="Regional Officee">Regional Office</option>
-                                        <option value="Store">Store</option>
+                                        <option value="Store">Store1</option>
                                     </select>
                                 </div>
                             </div>
@@ -71,7 +70,6 @@
                                 <h4 class="mb-3">Shipping Information</h4>
                                 <a href="javascript:void(0)" id="editAddress" class="badge badge-success mr-2"><i
                                         class="ri-pencil-line mr-0"></i> </a>
-
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -133,7 +131,7 @@
                         <button type="submit" class="btn btn-primary mr-2 ml-2" id="picklistBtn"
                             value="create">Save</button>
                         <button type="button" class="btn btn-light"
-                            onclick="window.location.href='{{ route('picklists.index') }}';">Cancel</button>
+                            onclick="window.location.href='{{ route('store/picklists.index') }}';">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -305,9 +303,6 @@
             $('#addressModal').on('hidden.bs.modal', function() {
                 $('#addressSaveBtn').html('Save');
             });
-
-
-
 
             var products = @json($products);
             var inventory = @json($inventory);

@@ -11,7 +11,7 @@
                         <h4 class="">Purchase Received</h4>
                     </div>
                     <button type="button" class="close" aria-label="Close"
-                        onclick="window.location.href='{{ route('user/receivedstocks.index') }}';">
+                    onclick="window.location.href='/admin/orders';">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -59,6 +59,17 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control"
                                                 value="{{ $order->purchase_order_no }}" readonly>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label class="control-label col-sm-2 align-self-center text-osave"
+                                            for="PO">Receieved Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}" readonly>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>

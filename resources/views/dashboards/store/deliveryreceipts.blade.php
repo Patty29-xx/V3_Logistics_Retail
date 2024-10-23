@@ -9,7 +9,6 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-between">
                     <div>
                         <h4>Delivery Receipts</h4>
-
                     </div>
 
                 </div>
@@ -45,7 +44,7 @@
     <script>
         function viewDeliveryReceipt(picklistId, deliveryReceiptId) {
             $.ajax({
-                url: '{{ route('user/deliveryreceipts.deliveryreceiptForm') }}',
+                url: '{{ route('store/deliveryreceipts.deliveryreceiptForm') }}',
                 type: 'GET',
                 data: {
                     id: picklistId,
@@ -55,7 +54,7 @@
                     if (response.error) {
                         console.error(response.error);
                     } else {
-                        window.location.href = '{{ route('user/deliveryreceipts.deliveryreceiptForm') }}?id=' + picklistId +
+                        window.location.href = '{{ route('store/deliveryreceipts.deliveryreceiptForm') }}?id=' + picklistId +
                             '&deliveryReceiptId=' + deliveryReceiptId;
                     }
                 },
@@ -74,7 +73,7 @@
                 autoWidth: false,
                 lengthMenu: [10, 20, 50, 100],
                 ajax: {
-                    url: "{{ route('user/deliveryreceipts.getDeliveryreceipts') }}",
+                    url: "{{ route('store/deliveryreceipts.getDeliveryreceipts') }}",
                     method: 'GET',
                     dataType: 'JSON'
                 },
@@ -151,7 +150,15 @@
                         }
                     }
                 ],
-                
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5',
+                    'print',
+                    'colvis'
+                ]
             });
         });
     </script>

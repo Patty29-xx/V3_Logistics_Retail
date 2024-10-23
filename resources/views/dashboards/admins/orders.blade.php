@@ -9,8 +9,9 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-between ">
                     <div>
                         <h4 class="">Order List</h4>
-
                     </div>
+                    <a href="/admin/orderForm" class="btn btn-primary add-list"><i
+                    class="las la-plus mr-3"></i>Purchase Order</a>
                 </div>
             </div>
             <div class="col-lg-12">
@@ -23,6 +24,7 @@
                             <tr class="ligth ligth-data">
                                 <th>No.</th>
                                 <th>Created Date</th>
+                                <th>Estimated Delivery</th>
                                 <th>Purchase Order No.</th>
                                 <th>Supplier</th>
                                 <th>Delivery Status</th>
@@ -127,6 +129,20 @@
                     },
 
                     {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            };
+                            return date.toLocaleDateString('en-GB', options);
+                        }
+                    },                   
+
+                    {
                         data: 'purchase_order_no',
                         name: 'purchase_order_no'
                     },
@@ -182,25 +198,18 @@
                             var editButton = '<a href="javascript:void(0)" data-id="' + full.id +
                                 '" data-toggle="tooltip" data-placement="top" title="Edit" class="badge bg-success mr-2 editOrder"><i class="ri-pencil-line mr-0"></i></a>';
                             var deleteButton = '<a href="javascript:void(0)" data-id="' + full.id +
-                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-warning deleteOrder"><i class="ri-delete-bin-line mr-0"></i></a>';
+                                '" data-toggle="tooltip" data-placement="top" title="Delete" class="badge bg-danger deleteOrder"><i class="ri-delete-bin-line mr-0"></i></a>';
 
                             return '<div class="d-flex align-items-center list-action">' +
                                 viewButton +
+                                deleteButton +
 
 
                                 '</div>';
                         }
                     }
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
+                
             });
 
             $("#createOrder").click(function() {

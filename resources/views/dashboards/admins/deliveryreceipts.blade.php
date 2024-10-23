@@ -24,6 +24,7 @@
                             <tr class="ligth ligth-data">
                                 <th>No.</th>
                                 <th>Created Date</th>
+                                <th>Received Date</th>
                                 <th>Delivery Receipt No.</th>
                                 <th>Pick List No.</th>
                                 <th>Order From</th>
@@ -98,6 +99,19 @@
                             return date.toLocaleDateString('en-GB', options);
                         }
                     },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            };
+                            return date.toLocaleDateString('en-GB', options);
+                        }
+                    },
 
                     {
                         data: 'deliveryreceipt_no',
@@ -137,15 +151,7 @@
                         }
                     }
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
+               
             });
         });
     </script>

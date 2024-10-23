@@ -5,8 +5,8 @@
               <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                   <i class="ri-menu-line wrapper-menu"></i>
                   <a href="/logistic-backend/index.html" class="header-logo">
-                      <img src="/logistic-assets/images/logo2.png" class="img-fluid " alt="logo">
-                      <h5 class="logo-title2 text-osave ml-1 font-weight-900">save</h5>
+                      <!-- <img src="/logistic-assets/images/logo2.png" class="img-fluid " alt="logo"> -->
+                      <h5 class="logo-title2 text-osave ml-1 font-weight-900">Logisitcs</h5>
 
                   </a>
               </div>

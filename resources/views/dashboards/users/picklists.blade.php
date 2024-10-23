@@ -24,6 +24,7 @@
                             <tr class="ligth ligth-data">
                                 <th>No.</th>
                                 <th>Created Date</th>
+                                <th>Estimated Delivery Date</th>
                                 <th>Pick List No.</th>
                                 <th>Order From</th>
                                 <th>Deliver To</th>
@@ -125,6 +126,19 @@
                             return date.toLocaleDateString('en-GB', options);
                         }
                     },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            };
+                            return date.toLocaleDateString('en-GB', options);
+                        }
+                    },
 
                     {
                         data: 'picklist_no',
@@ -159,15 +173,7 @@
                         }
                     }
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5',
-                    'print',
-                    'colvis'
-                ]
+                
             });
         });
     </script>

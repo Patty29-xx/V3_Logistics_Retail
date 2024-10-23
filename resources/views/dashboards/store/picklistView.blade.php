@@ -101,11 +101,6 @@
             <div class="content-page2">
                 <div class="bottom-nav d-flex">
                     @if ($picklist->status === 'Un-mark')
-                    <div class="btn-group mr-2" role="group" aria-label="Button group with nested dropdown">
-                        <button type="button" class="btn btn-primary"
-                            onclick="window.location.href='{{ route('deliveryreceipts.deliveryreceiptForm', ['id' => $picklist->id]) }}';">Mark As Delivery Receipt</button>
-
-                    </div>
                     @endif
                     <button type="button" class="btn btn-light"
                         onclick="window.location.href='{{ route('picklists.index') }}';">Cancel</button>
